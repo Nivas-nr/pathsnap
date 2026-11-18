@@ -16,7 +16,8 @@ venv/
 .ipynb_checkpoints/
 
 # Large intermediate files
-data/processed/*.parquet
+data/processed/*
+!data/processed/.gitkeep
 *.log
 
 # OS / editor

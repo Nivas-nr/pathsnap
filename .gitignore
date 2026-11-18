@@ -26,3 +26,6 @@ Thumbs.db
 desktop.ini
 .vscode/
 .idea/
+
+# Too large for GitHub (124 MB); regenerate with: python -m src.models.train_compare rf
+artifacts/models/rf.joblib

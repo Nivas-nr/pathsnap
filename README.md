@@ -51,6 +51,27 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-## Running
+## Running the pipeline
 
-Instructions will be added as the components are built.
+Run from the repository root, in order:
+
+```bash
+python -m src.data.eda                     # trip inventory, data-quality checks, overview plots
+python -m src.data.build_labels            # per-GPS-point labels from the reference route
+python -m src.visualisation.folium_maps train 00000033   # interactive map of one trip
+python -m src.features.candidate_study     # choose candidate radius R and size K (train only)
+python -m src.features.build_features      # (point, candidate) feature tables
+python -m src.models.train_compare         # train + compare 6 classifiers (GroupKFold CV + student-test)
+python -m src.evaluation.plot_comparison   # comparison figures
+```
+
+## Key design decisions
+
+| Decision | Choice | Evidence |
+|---|---|---|
+| Distance computation | Local equirectangular projection to metres per trip | Trips span < 75 km; error far below GPS noise |
+| Per-point labels | Monotonic DP alignment of GPS points to route order; > 50 m → unlabelled | Handles revisited streets and parked periods (trips 54, 33) |
+| Candidate set | R = 50 m, K = 8 distinct distances | 0.50 % miss rate, ~7 candidates/point (`results/candidates/`) |
+| Validation | 5-fold GroupKFold by trip | Prevents leakage between neighbouring points of one drive |
+
+`artifacts/models/rf.joblib` (124 MB) is not committed; rebuild it with `python -m src.models.train_compare rf`.

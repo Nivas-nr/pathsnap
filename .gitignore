@@ -1,0 +1,27 @@
+# Raw data and handout materials (kept locally, not committed)
+Student folder/
+PathSnap_student_materials/
+*.zip
+data/raw/
+
+# Evaluator ground truth must never be committed
+data/evaluator*/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+
+# Large intermediate files
+data/processed/*.parquet
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
